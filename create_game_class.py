@@ -31,7 +31,7 @@ class create_player:
             os.mkdir(self.player_location)
         # Initializes a blank settings.json file in player_location if one doesn't exist
         if not os.path.exists(self.player_location + '/settings.json'):
-            with open(self.player_location + '/settings.json') as f:
+            with open(self.player_location + '/settings.json', 'x') as f:
                 json.dump({}, f, indent=2)
 
         self.payload = None
