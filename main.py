@@ -1,5 +1,6 @@
-from game_class import game
+from create_game_class import create_game
 
 
-test_1 = game(5501867125374976)
-test_1.set_player('347luk')
+game_list = [create_game(5501867125374976)]
+game_list[0].add_player('347luk')
+# game_list[0].save_payload()

@@ -1,17 +1,34 @@
+import io
 import json
 import requests
 import os
 
 
-class game:
+class create_game:
     def __init__(self, game_number):
-        self.game_number = game_number
+        self.game_number = str(game_number)
+        with open('registered_players.json', 'r') as f:
+            reg_players = json.load(f)
+        try:
+            self.all_players = reg_players[game_number]
+        except KeyError:
+            self.all_players = []
+            with open('registered_players.json', 'w') as f:
+                reg_players[game_number] = []
+                json.dump(reg_players, f, indent=2)
+
         self.api_key = None
         root = "http://nptriton.cqproject.net/game/{}/full".format(game_number)
         self.payload = requests.post(root).json()
         self.turn_based = self.payload['turn_based']
 
-    def set_player(self, api_key):
+    def add_player(self, api_key):
+        if api_key not in self.all_players:
+            with open('registered_players.json', 'r') as f:
+                reg_players = json.load(f)
+            with open('registered_players.json', 'w') as f:
+                reg_players[self.game_number].append(api_key)
+                json.dump(reg_players, f, indent=2)
         self.api_key = api_key
         self.get_payload()
 
@@ -33,17 +50,16 @@ class game:
         payload = self.payload
         tick = str(payload['tick'])
 
-        missing_keys = ['fleets', 'fleet_speed', 'paused', 'productions', 'tick_fragment',
+        all_keys = ['fleets', 'fleet_speed', 'paused', 'productions', 'tick_fragment',
                         'now', 'tick_rate', 'production_rate', 'stars', 'stars_for_victory',
                         'game_over', 'started', 'start_time', 'total_stars',
                         'production_counter', 'trade_scanned', 'tick', 'trade_cost', 'name',
                         'player_uid', 'admin', 'turn_based', 'war', 'players',
                         'turn_based_time_out']
-        # for key in payload:
-        missing_keys.remove(key for key in payload)
+        missing_keys = [key for key in all_keys if key not in payload]
         payload['removed_keys'] = missing_keys
 
-        game_location = 'database/' + self.game_number
+        game_location = 'database/' + str(self.game_number)
         player_location = game_location + '/' + self.api_key
         tick_location = player_location + '/' + tick + '.json'
         try:
@@ -51,5 +67,6 @@ class game:
         except FileNotFoundError:
             os.mkdir(game_location)
             os.mkdir(player_location)
-        with open(tick_location, 'w') as f:
-            json.dump(payload, f, indent=4)
+        except FileExistsError:
+            with open(tick_location, 'w') as f:
+                json.dump(payload, f, indent=2)
