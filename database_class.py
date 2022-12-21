@@ -21,7 +21,8 @@ class database:
 
     def update_database(self):
         for player in self.player_list:
-            player.save_payload()
+            if player.payload:
+                player.save_payload()
 
     def get_player(self, api_key):
         for player in self.player_list:
