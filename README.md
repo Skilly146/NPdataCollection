@@ -4,7 +4,7 @@ This is the backend server code for my NPdataCollection tool. It is written in p
 
 # How do I use it?
 
-Fortunately you don't have to use this repo! If you would like to start submitting data to the database all you have to do is go to the [website] (that I haven't made yet) and register whatever games you want to submit. If you would like to set up your own server though all you have to do is clone the repo into your prefered python environment. Run init.py, and then set up a timed task (Ex: [cron](https://www.howtogeek.com/devops/what-is-a-cron-job-and-how-do-you-use-them/)) to run main.py at least every hour and recomended every 10 minutes.
+Fortunately you don't have to use this repo! If you would like to start submitting data to the database all you have to do is go to the [website] (that I haven't made yet) and register whatever games you want to submit. If you would like to set up your own server though all you have to do is clone the repo into your prefered python environment. Run init.py, and then set up a timed task (Ex: [cron](https://www.howtogeek.com/devops/what-is-a-cron-job-and-how-do-you-use-them/)) to run main.py at least every hour and recomended every 10 minutes. You can rename `test_active_players.json` to `active_players.json` and start playing with the code immediately if you want. I put all of my api keys for the test games I created for this in there so feel free to use them
 
 # How does it work?
 
