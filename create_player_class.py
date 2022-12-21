@@ -11,17 +11,6 @@ class create_player:
         self.game_number = str(game_number)
         self.api_key = api_key
 
-        # checks if api_key is already in active_players.json. If yes it saves registered api_keys to
-        # self.all_players and if no (if KeyError) it adds empty register for the game number
-        with open('active_players.json', 'r') as f:
-            all_players = json.load(f)
-        try:
-            all_players[api_key]
-        except KeyError:
-            with open('active_players.json', 'w') as f:
-                all_players[api_key] = game_number
-                json.dump(all_players, f, indent=2)
-
         self.game_location = 'database/' + self.game_number
         self.player_location = self.game_location + '/' + api_key
         # Checks if the player and game folders exists and if not creates them
@@ -32,7 +21,7 @@ class create_player:
         # Initializes a blank settings.json file in player_location if one doesn't exist
         if not os.path.exists(self.player_location + '/settings.json'):
             with open(self.player_location + '/settings.json', 'x') as f:
-                json.dump({}, f, indent=2)
+                json.dump({'blocked_keys': []}, f, indent=2)
 
         self.payload = None
         self.get_payload()

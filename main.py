@@ -1,9 +1,6 @@
-import json
-from create_player_class import create_player
+from database_class import database
 
 
-with open('active_players.json', 'r') as f:
-    active_players = json.load(f)
-player_list = [create_player(api_key, active_players[api_key]) for api_key in active_players]
-for player in player_list:
-    player.save_payload()
+new_players = [('kCtm0J', 5558472479080448)]
+db = database(new_players)
+db.update_database()
