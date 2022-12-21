@@ -1,5 +1,5 @@
 import json
-from create_player_class import create_player
+from player_class import create_player
 
 
 class database:
