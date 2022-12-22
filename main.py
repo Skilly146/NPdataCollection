@@ -1,8 +1,7 @@
 from database_class import database
-import time
 
 
-new_players = []
-db = database(new_players)
-db.get_player('ZDNGhr').change_blocked_keys(['fleets', 'stars', 'players'])
+new_players = [('jTCtDw', 5463568130244608)]
+db = database()
+db.add_players(new_players)
 db.update_database()
